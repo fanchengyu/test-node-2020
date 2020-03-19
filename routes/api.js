@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var user=require('../control/user')
 
 
-router.get('/user', function(req, res, next) {
-  console.log("req",req)
-  res.send({code:0,data:[1,2,3,4],message:'成功'});
-});
+router.get('/user', user.getData);
+router.post('/user',user.addData);
+router.put("/user",user.updataData)
+router.delete("/user",user.deleteData)
+router.patch("/user",user.deleteMany)
 
 module.exports = router;
