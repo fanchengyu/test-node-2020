@@ -23,8 +23,8 @@ const getData=(req,res)=>{
 // 添加数据模块
 const addData=(req,res)=>{
   const info=Object.assign(req.body,{id:getId()})
-  userModel.addTableData(info,reslut=>{
-    if(reslut){
+  userModel.addTableData(info,result=>{
+    if(result){
       res.send({
         code:0,
         data:[],
@@ -36,8 +36,8 @@ const addData=(req,res)=>{
 
 // 表格数据更新模块
 const updataData=(req,res)=>{
-  userModel.updataData(req.body,reslut=>{
-    if(reslut){
+  userModel.updataData(req.body,result=>{
+    if(result){
       res.send({
         code:0,
         data:[],
@@ -49,8 +49,8 @@ const updataData=(req,res)=>{
 
 // 删除数据模块
 const deleteData=(req,res)=>{
-  userModel.deleteData(req,reslut=>{
-    if(reslut){
+  userModel.deleteData(req,result=>{
+    if(result){
       res.send({
         code:0,
         data:[],
@@ -62,8 +62,8 @@ const deleteData=(req,res)=>{
 
 // 批量删除模块
 const deleteMany=(req,res)=>{
-  userModel.deleteMany(req.body,reslut=>{
-    if(reslut){
+  userModel.deleteMany(req.body,result=>{
+    if(result){
       res.send({
         code:0,
         data:[],
@@ -73,6 +73,32 @@ const deleteMany=(req,res)=>{
   })
 }
 
+// 登录模块
+const loginSystem=(req,res)=>{
+  userModel.loginSystem(req.body.user_name,result=>{
+    if(result){
+      if(req.body.pass_word===result.pass_word){
+        res.send({
+          code:0,
+          data:[],
+          message:"登录成功"
+        })
+      }else{
+        res.send({
+          code:-2,
+          data:[],
+          message:"密码错误"
+        })
+      }
+    }else{
+      res.send({
+        code:-1,
+        data:[],
+        message:"该用户名不存在"
+      })
+    }
+  })
+}
 
 //注册模块
 // const register=(req,res)=>{
@@ -148,5 +174,6 @@ module.exports={
     addData,
     updataData,
     deleteData,
-    deleteMany
+    deleteMany,
+    loginSystem
 }
