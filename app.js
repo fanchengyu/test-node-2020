@@ -1,6 +1,8 @@
 // node 引用各种模块
 var createError = require('http-errors');
 var express = require('express');
+var {tokenVerify} = require('./utils/token.js');
+var expressJwt = require('express-jwt');
 
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -8,6 +10,7 @@ var logger = require('morgan');
 
 // 定义需要的路由文件
 var apiRouter=require('./routes/api')
+var loginRouter=require('./routes/login')
 
 // 生成脚手架实例
 var app = express();
@@ -21,8 +24,40 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// 解析token获取用户信息
+app.use(function(req, res, next) {
+  const token = req.headers['authorization'];
+	if(!token){
+		return next();
+	}else{
+		tokenVerify(token).then((data)=> {
+      console.log('data',data)
+			req.data = data;
+			return next();
+		}).catch((error)=>{
+			return next();
+		})
+	}
+});
+
+//验证token是否过期并规定哪些路由不用验证
+app.use(expressJwt({
+	secret: 'mes_qdhd_mobile_xhykjyxgs'
+}).unless({
+	path: ['/login']//除了这个地址，其他的URL都需要验证
+}));
+
+//当token失效返回提示信息
+// app.use(function(err, req, res, next) {
+// 	if (err.status == 401) {
+// 		return res.status(401).send({code:-2,message:'token失效'});
+// 	}
+// });
+
 // 访问已经定义的路由
 app.use('/api',apiRouter)
+app.use('/login',loginRouter)
 
 
 // 错误处理

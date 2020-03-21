@@ -9,6 +9,5 @@ router.put("/user",user.updataData)
 router.delete("/user",user.deleteData)
 router.patch("/user",user.deleteMany)
 
-router.post('/login',user.loginSystem)
 
 module.exports = router;
