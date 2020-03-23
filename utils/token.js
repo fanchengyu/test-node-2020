@@ -3,7 +3,7 @@ var signkey = 'mes_qdhd_mobile_xhykjyxgs';
 
 const createToken = function(info){
 	return new Promise((resolve,reject)=>{
-		const token = jwt.sign(info,signkey,{ expiresIn:'3h' });
+		const token = jwt.sign(info,signkey,{ expiresIn:'1h' });
 		resolve(token);
 	})
 }

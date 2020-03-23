@@ -28,11 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 解析token获取用户信息
 app.use(function(req, res, next) {
   const token = req.headers['authorization'];
-	if(!token){
+  console.log("token",token)
+  if(!token){ // 客户端没有传token的情况
+    
 		return next();
-	}else{
+	}else{  //有token  对token进行验证
 		tokenVerify(token).then((data)=> {
-      console.log('data',data)
 			req.data = data;
 			return next();
 		}).catch((error)=>{
@@ -49,11 +50,12 @@ app.use(expressJwt({
 }));
 
 //当token失效返回提示信息
-// app.use(function(err, req, res, next) {
-// 	if (err.status == 401) {
-// 		return res.status(401).send({code:-2,message:'token失效'});
-// 	}
-// });
+app.use(function(err, req, res, next) {
+  console.log('err',err)
+	if (err.status == 401) {
+		return res.status(401).send({code:-2,message:err.inner.message});
+	}
+});
 
 // 访问已经定义的路由
 app.use('/api',apiRouter)
