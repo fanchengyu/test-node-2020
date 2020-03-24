@@ -1,6 +1,5 @@
  const {db}=require('../db/database')
 
-console.log("准备连接数据库");
 
 //数据的查询
 const findTableData=(userInfo,cb)=>{

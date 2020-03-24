@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 解析token获取用户信息
 app.use(function(req, res, next) {
   const token = req.headers['authorization'];
-  console.log("token",token)
   if(!token){ // 客户端没有传token的情况
     
 		return next();
@@ -46,12 +45,11 @@ app.use(function(req, res, next) {
 app.use(expressJwt({
 	secret: 'mes_qdhd_mobile_xhykjyxgs'
 }).unless({
-	path: ['/login']//除了这个地址，其他的URL都需要验证
+	path: ['/login',"/login/register"]//除了这个地址，其他的URL都需要验证
 }));
 
 //当token失效返回提示信息
 app.use(function(err, req, res, next) {
-  console.log('err',err)
 	if (err.status == 401) {
 		return res.status(401).send({code:-2,message:err.inner.message});
 	}

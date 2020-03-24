@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var user=require('../control/login')
+var {loginSystem,registerSystem}=require('../control/login')
 
 
 
 
-router.post('',user.loginSystem)
+router.post('',loginSystem)
+router.post('/register',registerSystem)
 
 module.exports = router;
