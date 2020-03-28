@@ -15,7 +15,7 @@ const registerSystem=(req,res)=>{
             res.send({
               code:-3,
               state:false,
-              info:"用户名已存在"
+              message:"用户名已存在"
             })
         }else{
             //创建md5算法
