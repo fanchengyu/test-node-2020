@@ -3,8 +3,9 @@
 const mysql =require("mysql")
 
 // 创建连接
+
 const db=mysql.createConnection({
-  host:'localhost',
+  host:'106.52.98.247',
   user:'root',
   password:'123456',
   database:'mysql'
